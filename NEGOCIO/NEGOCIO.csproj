@@ -40,7 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DepartamentoBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DATOS\DATOS.csproj">
+      <Project>{0a308ac3-7363-4015-b064-bb88aa0306f3}</Project>
+      <Name>DATOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ENTIDAD\ENTIDAD.csproj">
+      <Project>{390781ea-2a81-4693-ad58-c7358a1b6606}</Project>
+      <Name>ENTIDAD</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
