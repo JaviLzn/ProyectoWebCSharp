@@ -26,7 +26,35 @@ namespace DATOS
             }
         }
 
+        public Departamento GetDepartamento (int id)
+        {
+            using (var db =  new ProyectosContext())
+            {
+                //return db.Departamento.Find(id);
+                return db.Departamento.Where(a => a.DepartamentoId == id).FirstOrDefault();
+            }
+        }
 
+        public void Editar (Departamento dpto)
+        {
+            using(var db = new ProyectosContext())
+            {
+                var d = db.Departamento.Find(dpto.DepartamentoId);
+
+                d.NombreDepartamento = dpto.NombreDepartamento;
+                db.SaveChanges();
+            }
+        }
+
+        public void Eliminar (int id)
+        {
+            using (var db = new ProyectosContext())
+            {
+                var d = db.Departamento.Find(id);
+                db.Departamento.Remove(d);
+                db.SaveChanges();
+            }
+        }
 
     }
 }

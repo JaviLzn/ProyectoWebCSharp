@@ -20,5 +20,21 @@ namespace NEGOCIO
         {
             return obj.ListarDepartamentos();
         }
+
+        public static Departamento GetDepartamento(int id)
+        {
+            return obj.GetDepartamento(id);
+        }
+
+
+        public static void Editar(Departamento dpto)
+        {
+            obj.Editar(dpto);
+        }
+
+        public static void Eliminar(int id)
+        {
+            obj.Eliminar(id);
+        }
     }
 }

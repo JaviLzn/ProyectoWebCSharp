@@ -11,24 +11,26 @@
     @Html.ActionLink("Crear Departamento", "Crear")
 </p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.NombreDepartamento)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.NombreDepartamento)
-        </td>
-        <td>
-            @Html.ActionLink("Modificar", "Edit", new { id=item.DepartamentoId }) |
-            @Html.ActionLink("Ver Detalles", "Details", new { id=item.DepartamentoId }) |
-            @Html.ActionLink("Borrar", "Delete", new { id=item.DepartamentoId })
-        </td>
-    </tr>
-}
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">
+                Nombre del Departamento
+            </th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreDepartamento)
+                </td>
+                <td>
+                    @Html.ActionLink("Modificar", "Editar", new { id = item.DepartamentoId }, new { @class = "btn btn-primary" }) 
+                    @Html.ActionLink("Ver Detalles", "GetDepartamento", new { id = item.DepartamentoId }, new { @class = "btn btn-success" }) 
+                    @Html.ActionLink("Borrar", "Eliminar", new { id = item.DepartamentoId }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
 
 </table>
