@@ -61,6 +61,7 @@
       <DependentUpon>ModelProyectos.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProyectoDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="ModelProyectos.edmx">
