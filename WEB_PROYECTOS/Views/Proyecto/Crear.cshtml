@@ -50,20 +50,43 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    
     <script>
         $("#frmProyecto").submit(function (event) {
             event.preventDefault();
+
+            var nombre = $("#NombreProyecto").val();
+            var fechaInicio = $("#FechaInicio").val();
+            var fechafin = $("#FechaFin").val();
+
+            if ($.trim(nombre) == "") {
+                alert("Debe ingresar el nombre del proyecto");
+                return;
+            }
+
+            if (fechaInicio == "" || fechafin == "") {
+                alert("Debe ingresar la Fecha de Inicio y la Fecha Fin");
+                return;
+            }
+
+            if (!ValidarFechas(fechaInicio, fechafin)) {
+                alert("La Fecha fin no puede ser menor que la fecha de Inicio");
+                return;
+            }
+
 
             var post_url = $(this).attr("action");
             var req_method = $(this).attr("method");
             var datos = $(this).serializeArray();
             console.log(datos);
+            LoadingOverlayShow("#frmProyecto");
             $.ajax({
                 url: post_url,
                 type: req_method,
                 data: datos
             }).done(function (response) {
                 console.log(response);
+                LoadingOverlayHide("#frmProyecto");
                 if (response.ok) {
                     alert("Proyecto creado correctamente");
                     window.location = response.toRedirect;
@@ -72,8 +95,10 @@
                     alert(response.msg);
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
+                LoadingOverlayHide("#frmProyecto");
                 ////
             });
         });
+
     </script>
 }

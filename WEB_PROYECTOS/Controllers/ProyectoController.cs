@@ -30,7 +30,8 @@ namespace WEB_PROYECTOS.Controllers
             {
                 if (proy.NombreProyecto == null)
                   return Json(new { ok = false, msg = "Debe ingresar el nombre del proyecto" }, JsonRequestBehavior.AllowGet);
-                
+
+                System.Threading.Thread.Sleep(2000);
 
                 ProyectoBLL.Agregar(proy);
                 return Json(new { ok = true, toRedirect = "Index" }, JsonRequestBehavior.AllowGet);
