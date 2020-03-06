@@ -10,7 +10,7 @@
 <p>
     @Html.ActionLink("Crear Departamento", "Crear")
 </p>
-<table class="table">
+<table class="table" id="tablaDepto">
     <thead class="thead-dark">
         <tr>
             <th scope="col">
@@ -19,6 +19,7 @@
             <th scope="col"></th>
         </tr>
     </thead>
+    <tbody>
         @foreach (var item in Model)
         {
             <tr>
@@ -26,11 +27,20 @@
                     @Html.DisplayFor(modelItem => item.NombreDepartamento)
                 </td>
                 <td>
-                    @Html.ActionLink("Modificar", "Editar", new { id = item.DepartamentoId }, new { @class = "btn btn-primary" }) 
-                    @Html.ActionLink("Ver Detalles", "GetDepartamento", new { id = item.DepartamentoId }, new { @class = "btn btn-success" }) 
+                    @Html.ActionLink("Modificar", "Editar", new { id = item.DepartamentoId }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Ver Detalles", "GetDepartamento", new { id = item.DepartamentoId }, new { @class = "btn btn-success" })
                     @Html.ActionLink("Borrar", "Eliminar", new { id = item.DepartamentoId }, new { @class = "btn btn-danger" })
                 </td>
             </tr>
         }
-
+    </tbody>
 </table>
+
+@section scripts {
+    <script>
+        $("#tablaDepto").DataTable({
+            "pageLenght": 5,
+            lengthMenu: [5, 10, 20, 50, 100, 200, 500]
+        });
+    </script>
+}

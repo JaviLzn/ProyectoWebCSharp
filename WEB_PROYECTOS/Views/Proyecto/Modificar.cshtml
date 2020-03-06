@@ -1,0 +1,105 @@
+﻿@model ENTIDAD.Proyecto
+
+@{
+    ViewBag.Title = "Modificar";
+}
+
+<form action="@Url.Action("Modificar","Proyecto")" method="post" id="frmProyecto">
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Editar Proyecto</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ProyectoId)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Nombre del Proyecto:</label>
+            <div class="col-md-10">
+                <input type="text" name="NombreProyecto" id="NombreProyecto" value="@Model.NombreProyecto" placeholder="Nombre del proyecto" class="form-control" />
+                @Html.ValidationMessageFor(model => model.NombreProyecto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Fecha de Inicio:</label>
+            <div class="col-md-10">
+                <input type="date" name="FechaInicio" id="FechaInicio" class="form-control" value="@Model.FechaInicio.ToString("yyyy-MM-dd")" />
+                @Html.ValidationMessageFor(model => model.FechaInicio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Fecha Fin:</label>
+            <div class="col-md-10">
+                <input type="date" name="FechaFin" id="FechaFin" class="form-control" value="@Model.FechaFin.ToString("yyyy-MM-dd")" />
+                @Html.ValidationMessageFor(model => model.FechaFin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar Proyecto" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a href="@Url.Action("Index","Proyecto")" class="btn btn-default">Regresar</a>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $("#frmProyecto").submit(function (event) {
+            event.preventDefault();
+
+            var nombre = $("#NombreProyecto").val();
+            var fechaInicio = $("#FechaInicio").val();
+            var fechafin = $("#FechaFin").val();
+
+            if ($.trim(nombre) == "") {
+                alert("Debe ingresar el nombre del proyecto");
+                return;
+            }
+
+            if (fechaInicio == "" || fechafin == "") {
+                alert("Debe ingresar la Fecha de Inicio y la Fecha Fin");
+                return;
+            }
+
+            if (!ValidarFechas(fechaInicio, fechafin)) {
+                alert("La Fecha fin no puede ser menor que la fecha de Inicio");
+                return;
+            }
+
+
+            var post_url = $(this).attr("action");
+            var req_method = $(this).attr("method");
+            var datos = $(this).serializeArray();
+            console.log(datos);
+            LoadingOverlayShow("#frmProyecto");
+            $.ajax({
+                url: post_url,
+                type: req_method,
+                data: datos
+            }).done(function (response) {
+                console.log(response);
+                LoadingOverlayHide("#frmProyecto");
+                if (response.ok) {
+                    alert("Proyecto editado correctamente");
+                    window.location = response.toRedirect;
+                }
+                else {
+                    alert(response.msg);
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                LoadingOverlayHide("#frmProyecto");
+                console.log(textStatus);
+            });
+        });
+
+    </script>
+}

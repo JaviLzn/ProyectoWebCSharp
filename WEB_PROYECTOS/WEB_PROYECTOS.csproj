@@ -286,6 +286,8 @@
     <Content Include="Views\Departamento\Eliminar.cshtml" />
     <Content Include="Views\Proyecto\Index.cshtml" />
     <Content Include="Views\Proyecto\Crear.cshtml" />
+    <Content Include="Views\Proyecto\DetalleProy.cshtml" />
+    <Content Include="Views\Proyecto\Modificar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

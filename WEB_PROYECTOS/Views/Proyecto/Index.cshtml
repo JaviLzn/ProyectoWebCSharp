@@ -1,7 +1,13 @@
 ﻿@model IEnumerable<ENTIDAD.Proyecto>
 
 @{
+    /**/
+
     ViewBag.Title = "Index";
+}
+
+@section styles {
+
 }
 
 <h2>Lista de Proyectos</h2>
@@ -9,40 +15,89 @@
 <p>
     <a class="btn btn-primary" href="@Url.Action("Crear", "Proyecto")"><i class="glyphicon glyphicon-plus"></i> Crear proyecto</a>
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Nombre del Proyecto
-        </th>
-        <th>
-            Fecha de Inicio
-        </th>
-        <th>
-            Fecha Fin
-        </th>
-        <th></th>
-    </tr>
+<table class="table table-striped table-bordered" id="tableDemo">
 
-    @foreach (var item in Model)
-    {
+
+    <thead>
         <tr>
-            <td>
-                @item.NombreProyecto
-            </td>
-            <td>
-                @item.FechaInicio.ToShortDateString()
-            </td>
-            <td>
-                @item.FechaFin.ToShortDateString()
-            </td>
-            <td>
-                <a href="@Url.Action("Editar", "Proyecto", new { id = item.ProyectoId })" class="btn btn-primary btn-xs" title="Editar"><i class="glyphicon glyphicon-edit"></i></a> 
-                <a href="@Url.Action("DetalleProy", "Proyecto", new { id = item.ProyectoId })" class="btn btn-info btn-xs" title="Detalle"><i class="glyphicon glyphicon-pencil"></i></a> 
-                <a href="@Url.Action("Eliminar", "Proyecto", new { id = item.ProyectoId })" class="btn btn-danger btn-xs" title="Eliminar"><i class="glyphicon glyphicon-trash"></i></a> 
-
-                
-            </td>
+            <th>
+                <label class="demoCss"> Nombre del Proyecto</label>
+            </th>
+            <th>
+                Fecha de Inicio
+            </th>
+            <th>
+                Fecha Fin
+            </th>
+            <th></th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.NombreProyecto
+                </td>
+                <td>
+                    @item.FechaInicio.ToShortDateString()
+                </td>
+                <td>
+                    @item.FechaFin.ToShortDateString()
+                </td>
+                <td>
+                    <a href="@Url.Action("Modificar", "Proyecto", new { id = item.ProyectoId })" class="btn btn-primary btn-xs" title="Editar"><i class="glyphicon glyphicon-edit"></i></a>
+                    <a href="@Url.Action("DetalleProy", "Proyecto", new { id = item.ProyectoId })" class="btn btn-info btn-xs" title="Detalle"><i class="glyphicon glyphicon-pencil"></i></a>
+                    <a onclick="EliminarProyecto(@item.ProyectoId)" class="btn btn-danger btn-xs" title="Eliminar"><i class="glyphicon glyphicon-trash"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
 
 </table>
+
+@section scripts {
+    <script>
+        $("#tableDemo").DataTable({
+            "pageLenght": 5,
+            lengthMenu: [5, 10, 20, 50, 100, 200, 500]
+        });
+
+        function EliminarProyecto(idProy) {
+            $.confirm({
+                title: 'Eliminando Proyecto',
+                content: '¿Está seguro que desea eliminar este proyecto?',
+                buttons: {
+                    confirmar: function () {
+                        var post_url = "/Proyecto/Eliminar";
+                        var req_method = "post";
+                        var datos = { id: idProy }
+                        console.log(datos);
+                        LoadingOverlayShow("#tableDemo");
+                        $.ajax({
+                            url: post_url,
+                            type: req_method,
+                            data: datos
+                        }).done(function (response) {
+                            console.log(response);
+                            LoadingOverlayHide("#tableDemo");
+                            if (response.ok) {
+                                alert("Proyecto eliminado correctamente");
+                                window.location = response.toRedirect;
+                            }
+                            else {
+                                alert(response.msg);
+                            }
+                        }).fail(function (jqXHR, textStatus, errorThrown) {
+                            LoadingOverlayHide("#tableDemo");
+                            console.log(textStatus);
+                        });
+                    },
+                    cancelar: function () {
+                        //$.alert('Canceled!');
+                    }
+                }
+            });
+        }
+    </script>
+}
