@@ -9,6 +9,8 @@ using System.Web.Mvc;
 
 namespace WEB_PROYECTOS.Controllers
 {
+
+    [Authorize(Roles = "Admin")]
     public class DepartamentoController : Controller
     {
         // GET: Departamento

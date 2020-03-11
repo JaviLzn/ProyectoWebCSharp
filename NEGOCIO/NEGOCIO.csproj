@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="DepartamentoBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="EmpleadoBLL.cs" />
     <Compile Include="ProyectoBLL.cs" />
   </ItemGroup>
   <ItemGroup>

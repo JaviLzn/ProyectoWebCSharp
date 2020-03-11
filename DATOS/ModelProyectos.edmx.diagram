@@ -5,11 +5,13 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="c20d0f727eec412eb369b8a60e7abe7a" Name="Diagram1">
-        <EntityTypeShape EntityType="PROYECTOSDBModel.Empleado" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="PROYECTOSDBModel.Proyecto" Width="1.5" PointX="5.25" PointY="3.25" IsExpanded="true" />
-        <AssociationConnector Association="PROYECTOSDBModel.FK_Empleado_Proyecto" ManuallyRouted="false" />
         <EntityTypeShape EntityType="PROYECTOSDBModel.Departamento" Width="1.5" PointX="0.75" PointY="1.625" />
+        <EntityTypeShape EntityType="PROYECTOSDBModel.Empleado" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="PROYECTOSDBModel.Proyecto" Width="1.5" PointX="3" PointY="5.375" />
+        <EntityTypeShape EntityType="PROYECTOSDBModel.ProyectoEmpleado" Width="1.5" PointX="5.25" PointY="1.375" />
         <AssociationConnector Association="PROYECTOSDBModel.FK_Empleado_Departamento" />
+        <AssociationConnector Association="PROYECTOSDBModel.FK_ProyectoEmpleado_Empleado" />
+        <AssociationConnector Association="PROYECTOSDBModel.FK_ProyectoEmpleado_Proyecto" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

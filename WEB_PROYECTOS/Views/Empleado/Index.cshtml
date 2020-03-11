@@ -1,0 +1,116 @@
+﻿@model IEnumerable<ENTIDAD.Empleado>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Lista de Empleados</h2>
+
+<p>
+    <a class="btn btn-primary" href="@Url.Action("Crear", "Empleado")"><i class="glyphicon glyphicon-plus"></i> Crear Empleado</a>
+</p>
+<table class="table table-striped" id="tableDemo">
+
+    <thead>
+        <tr>
+            <th>
+                Nombres
+            </th>
+            <th>
+                Apellidos
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Direccion
+            </th>
+            <th>
+                Celular
+            </th>
+            <th>
+                Departamento
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Nombres
+                </td>
+                <td>
+                    @item.Apellidos
+                </td>
+                <td>
+                    @item.Email
+                </td>
+                <td>
+                    @item.Direccion
+                </td>
+                <td>
+                    @item.Celular
+                </td>
+                <td>
+                    @item.Departamento
+                </td>
+                <td>
+                    <a href="@Url.Action("Modificar", "Empleado", new { id = item.EmpleadoId })" class="btn btn-primary btn-xs" title="Editar"><i class="glyphicon glyphicon-edit"></i></a>
+                    <a href="@Url.Action("Detallar", "Empleado", new { id = item.EmpleadoId })" class="btn btn-info btn-xs" title="Detalle"><i class="glyphicon glyphicon-pencil"></i></a>
+                    <a onclick="EliminarEmpleado(@item.EmpleadoId)" class="btn btn-danger btn-xs" title="Eliminar"><i class="glyphicon glyphicon-trash"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>
+
+@section scripts {
+    <script>
+        $("#tableDemo").DataTable({
+            "pageLenght": 5,
+            lengthMenu: [5, 10, 20, 50, 100, 200, 500]
+        });
+
+        function EliminarEmpleado(idEmpleado) {
+            $.confirm({
+                title: 'Eliminando Empleado',
+                content: '¿Está seguro que desea eliminar este Empleado?',
+                buttons: {
+                    confirmar: function () {
+                        var post_url = "/Empleado/Eliminar";
+                        var req_method = "post";
+                        var datos = { id: idEmpleado }
+                        console.log(datos);
+                        LoadingOverlayShow("#tableDemo");
+                        $.ajax({
+                            url: post_url,
+                            type: req_method,
+                            data: datos
+                        }).done(function (response) {
+                            console.log(response);
+                            LoadingOverlayHide("#tableDemo");
+                            if (response.ok) {
+                                alert("Empleado eliminado correctamente");
+                                window.location = response.toRedirect;
+                            }
+                            else {
+                                alert(response.msg);
+                            }
+                        }).fail(function (jqXHR, textStatus, errorThrown) {
+                            LoadingOverlayHide("#tableDemo");
+                            console.log(textStatus);
+                        });
+                    },
+                    cancelar: function () {
+                        //$.alert('Canceled!');
+                    }
+                }
+            });
+        }
+    </script>
+}
